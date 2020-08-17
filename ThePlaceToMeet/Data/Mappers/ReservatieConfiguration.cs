@@ -8,7 +8,19 @@ namespace ThePlaceToMeet.Data.Mappers
     {
         public void Configure(EntityTypeBuilder<Reservatie> builder)
         {
-            //implemsenteer
+            //implementeer
+            builder.ToTable("Reservatie");
+
+            builder.HasOne(t => t.Catering)
+                .WithMany()
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(t => t.Korting)
+                .WithMany()
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.Restrict);
+
         }
     }
 }
