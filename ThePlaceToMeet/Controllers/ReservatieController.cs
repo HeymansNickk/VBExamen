@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ThePlaceToMeet.Filters;
@@ -38,6 +39,7 @@ namespace ThePlaceToMeet.Controllers
             return View(ruimtes.OrderBy(v => v.VergaderruimteType).ThenBy(v => v.MaximumAantalPersonen));
         }
 
+        [Authorize(Policy = "klant")]
         public IActionResult Reserveer(int id)
         {
             Vergaderruimte ruimte = _vergaderruimteRepository.GetById(id);
@@ -49,9 +51,10 @@ namespace ThePlaceToMeet.Controllers
 
         [HttpPost]
         [ServiceFilter(typeof(KlantFilter))]
+        [Authorize(Policy = "klant")]
         public IActionResult Reserveer(int id, ReservatieViewModel viewmodel, Klant klant)
         {
-            if (ModelState.IsValid){}
+            if (ModelState.IsValid)
             {
                 try
                 {
@@ -65,11 +68,10 @@ namespace ThePlaceToMeet.Controllers
                     _vergaderruimteRepository.SaveChanges();
                     TempData["message"] = $"Je reservatie voor {ruimte.Naam} op {reservatie.Dag.ToShortDateString()} werd geregistreerd...";
                 }
-                catch (Exception e)
+                catch 
                 {
                     TempData["error"] = $"Sorry, er is iets mis gegaan,we konden de vergaderruimte niet reserveren.";
                 }
-
                 return RedirectToAction(nameof(Index));
             }
             ViewData["catering"] = new SelectList(_cateringRepository.GetAll().OrderBy(c => c.Titel),
