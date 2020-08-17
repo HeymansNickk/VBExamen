@@ -9,8 +9,8 @@
         <form>
             <div class="form-group">
                 <label for="aantalPersonen" class="control-label">Zoek een vergaderruimte voor </label>
-                <input type="number" name="aantalPersonen" id="aantalPersonen" placeholder="aantal" value=@ViewData["aantalPersonen"] style="border: 1px solid #dedede"/> <b>personen</b>&nbsp;&nbsp;
-                <input type="submit" value="zoek" class="btn btn-secondary"/>
+                <input type="number" name="aantalPersonen" id="aantalPersonen" placeholder="aantal" value=@ViewData["aantalPersonen"]  style="border:1px solid #dedede"/> <b>personen</b>&nbsp;&nbsp;
+                <input type="submit" value="zoek" class="btn btn-secondary" />
             </div>
         </form>
         @if (Model.Count() == 0)
@@ -20,16 +20,15 @@
         else
         {
             <div class="row">
-                @foreach (var ruimte in Model)
+                @foreach (var item in Model)
                 {
+
                     <div class="col-md-4">
-                        <p class="text-center">
-                            <strong>@ruimte.Naam</strong>
-                        </p>
-                        <p class="text-center small">Maximaal @ruimte.MaximumAantalPersonen personen</p>
-                        <img src="/images/@(ruimte.VergaderruimteType.ToString()).jpg" alt="meetingroom" class="room"/>
+                        <p class="text-center"><strong>@item.Naam</strong></p>
+                        <p class="text-center small">Maximaal @item.MaximumAantalPersonen personen</p>
+                        <img src="~/images/@(item.VergaderruimteType.ToString()).jpg" alt="meetingroom" class="room" />
                         <div class="text-center btn-reserveer pt-2 pb-5">
-                            <a class="btn btn-secondary" asp-controller="Reservatie" asp-action="Reserveer" asp-route="@ruimte.Id">Reserveer</a>
+                            <a class="btn btn-secondary" asp-controller="Reservatie" asp-action="Reserveer" asp-route-id="@item.Id">Reserveer</a>
                         </div>
                     </div>
                 }
