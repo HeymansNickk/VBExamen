@@ -34,7 +34,10 @@ namespace ThePlaceToMeet {
                 options.AddPolicy("Klant", policy => policy.RequireClaim(ClaimTypes.Role, "klant"));
             });
 
+            services.AddScoped<ICateringRepository, CateringRepository>();
             services.AddScoped<IKlantRepository, KlantRepository>();
+            services.AddScoped<IKortingRepository, KortingRepository>();
+            services.AddScoped<IVergaderruimteRepository, VergaderruimteRepository>();
             services.AddScoped<ApplicationDataInitializer>();
             services.AddScoped<KlantFilter>();
 
